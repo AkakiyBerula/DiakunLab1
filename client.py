@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import socket
+from sys import getsizeof
 
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
@@ -14,6 +15,12 @@ print(serverResponce.decode('utf-8'))
 a = input()
 client.send(a.encode('utf-8'))
 serverResponce = client.recv(1024)
-print(serverResponce.decode('utf-8'))
+size_data = client.recv(1024).decode('utf-8')
+if int(size_data) == getsizeof(a):
+    print(serverResponce.decode('utf-8'))
+    print("Дані були успішно відправлено!")
+else:
+    print("Помилка відправлення даних")
+
 input("Натисніть клавішу, щоб завершити...")
 client.close()
